@@ -373,6 +373,120 @@ app.get('/api/reports', async (req, res) => {
 });
 
 
+// =============================================================================
+//  ENDPOINT 5  —  POST /api/return
+//  Returns a borrowed book for a specific member.
+//
+//  Body: { book_id: number, member_id: number }
+//
+//  Steps (all or nothing):
+//    1. Verify the selected member actually has this book checked out (status='borrowed')
+//    2. Update borrowing_record (status='returned', return_date=CURRENT_DATE)
+//    3. Update books.available_copies  +=  1
+// =============================================================================
+app.post('/api/return', async (req, res) => {
+  const { book_id, member_id } = req.body;
+
+  if (!book_id || !member_id) {
+    return res.status(400).json({
+      success: false,
+      error:   'Both book_id and member_id are required.',
+      executed_query: '-- Aborted: missing required fields.',
+    });
+  }
+
+  // Display strings for terminal
+  const step1_display = `-- Step 1: Verify member has this book checked out
+SELECT record_id, b.title
+FROM   borrowing_records br
+JOIN   books b USING(book_id)
+WHERE  br.book_id = ${book_id}
+  AND  br.member_id = ${member_id}
+  AND  br.status = 'borrowed'
+FOR UPDATE;`;
+
+  const step2_display = `-- Step 2: Update borrowing record to 'returned'
+UPDATE borrowing_records
+SET    return_date = CURRENT_DATE,
+       status = 'returned'
+WHERE  record_id = <record_id>
+RETURNING *;`;
+
+  const step3_display = `-- Step 3: Increment available copies
+UPDATE books
+SET    available_copies = available_copies + 1
+WHERE  book_id = ${book_id}
+RETURNING book_id, title, available_copies;`;
+
+  const client = await pool.connect();
+  try {
+    await client.query('BEGIN');
+
+    // 1. Verify existence of active loan for THIS member
+    const checkResult = await client.query(
+      `SELECT record_id, b.title
+       FROM   borrowing_records br
+       JOIN   books b USING(book_id)
+       WHERE  br.book_id = $1
+         AND  br.member_id = $2
+         AND  br.status = 'borrowed'
+       FOR UPDATE`,
+      [book_id, member_id]
+    );
+
+    if (checkResult.rows.length === 0) {
+      throw new Error('The selected member does not currently have this book checked out.');
+    }
+
+    const { record_id, title } = checkResult.rows[0];
+
+    // 2. Update record
+    const updateRecordResult = await client.query(
+      `UPDATE borrowing_records
+       SET    return_date = CURRENT_DATE,
+              status = 'returned'
+       WHERE  record_id = $1
+       RETURNING *`,
+      [record_id]
+    );
+
+    // 3. Increment availability
+    const updateBookResult = await client.query(
+      `UPDATE books
+       SET    available_copies = available_copies + 1
+       WHERE  book_id = $1
+       RETURNING book_id, title, available_copies`,
+      [book_id]
+    );
+
+    await client.query('COMMIT');
+
+    const fullDisplayQuery =
+      `BEGIN;\n\n${step1_display}\n\n${step2_display.replace('<record_id>', record_id)}\n\n${step3_display}\n\nCOMMIT;`;
+
+    return res.json({
+      success:        true,
+      message:        `"${title}" successfully returned!`,
+      data: {
+        borrowing_record: updateRecordResult.rows[0],
+        book:             updateBookResult.rows[0],
+      },
+      executed_query: fullDisplayQuery,
+    });
+
+  } catch (err) {
+    await client.query('ROLLBACK');
+    return res.status(400).json({
+      success:        false,
+      error:          err.message,
+      executed_query: `BEGIN;\n\n${step1_display}\n\n-- ❌ ROLLBACK triggered: ${err.message}\n\nROLLBACK;`,
+    });
+  } finally {
+    client.release();
+  }
+});
+
+
 // ─── 404 fallback ─────────────────────────────────────────────────────────────
 app.use((req, res) => {
   res.status(404).json({ success: false, error: `Route ${req.path} not found.` });

@@ -200,12 +200,11 @@ function renderBooks(books) {
             <span class="avail-count">(${book.available_copies}/${book.total_copies})</span>
           </div>
           <button
-            class="borrow-btn"
-            onclick="borrowBook(${book.book_id}, this)"
-            ${!available ? 'disabled' : ''}
-            aria-label="Borrow ${esc(book.title)}"
+            class="borrow-btn ${!available ? 'return-mode' : ''}"
+            onclick="${available ? `borrowBook(${book.book_id}, this)` : `returnBook(${book.book_id}, this)`}"
+            aria-label="${available ? 'Borrow' : 'Return'} ${esc(book.title)}"
           >
-            ${available ? 'Borrow' : 'Unavailable'}
+            ${available ? 'Borrow' : 'Return'}
           </button>
         </div>
       </div>
@@ -215,11 +214,13 @@ function renderBooks(books) {
 
 /** Update the header stat chips */
 function updateStats(books) {
-  const total = books.length;
-  const avail = books.filter(b => b.available_copies > 0).length;
-  statTitles.textContent = total;
-  statAvail.textContent  = avail;
-  statOut.textContent    = total - avail;
+  const titles    = books.length;
+  const totalAvail = books.reduce((acc, b) => acc + (b.available_copies || 0), 0);
+  const totalBooks = books.reduce((acc, b) => acc + (b.total_copies || 0), 0);
+
+  statTitles.textContent = titles;
+  statAvail.textContent  = totalAvail;
+  statOut.textContent    = totalBooks - totalAvail;
 }
 
 
@@ -279,6 +280,60 @@ async function borrowBook(bookId, btn) {
     showToast('Network error — check the server.', 'error');
     btn.disabled    = false;
     btn.textContent = 'Borrow';
+    btn.classList.remove('loading');
+  }
+}
+
+/** Called when user clicks a Return button */
+async function returnBook(bookId, btn) {
+  if (!selectedMember) {
+    showToast('Select a member to process return!', 'error');
+    return;
+  }
+
+  btn.disabled    = true;
+  btn.textContent = 'Returning…';
+  btn.classList.add('loading');
+
+  const spinner = addSpinner();
+
+  try {
+    const res  = await fetch('/api/return', {
+      method:  'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body:    JSON.stringify({ book_id: bookId, member_id: selectedMember.member_id }),
+    });
+    const json = await res.json();
+    spinner.remove();
+
+    addTerminalEntry({
+      method:   'POST',
+      endpoint: '/api/return',
+      label:    json.message || 'Checkin Transaction',
+      query:    json.executed_query,
+      status:   json.success ? 'ok' : 'err',
+      error:    json.error,
+    });
+
+    if (json.success) {
+      showToast(`✓ ${json.message}`, 'success');
+      await fetchBooks();
+    } else {
+      showToast(`✗ ${json.error}`, 'error');
+      btn.disabled    = false;
+      btn.textContent = 'Return';
+      btn.classList.remove('loading');
+    }
+  } catch (err) {
+    spinner.remove();
+    addTerminalEntry({
+      method: 'POST', endpoint: '/api/return', label: 'Checkin Transaction',
+      query:  '-- ❌ Network error',
+      status: 'err', error: err.message,
+    });
+    showToast('Network error — check connection.', 'error');
+    btn.disabled    = false;
+    btn.textContent = 'Return';
     btn.classList.remove('loading');
   }
 }
@@ -381,9 +436,26 @@ function buildReportTable(rows) {
   const head = cols.map(c =>
     `<th>${c.replace(/_/g, ' ')}</th>`
   ).join('');
+
+  const formatDate = (val) => {
+    // Detect ISO string (contains T and ends with Z or matches date pattern)
+    if (typeof val === 'string' && /^\d{4}-\d{2}-\d{2}T/.test(val)) {
+      const d = new Date(val);
+      if (!isNaN(d)) {
+        return d.toLocaleDateString('en-US', {
+          month: 'short',
+          day: 'numeric',
+          year: 'numeric'
+        });
+      }
+    }
+    return val ?? '—';
+  };
+
   const body = rows.map(row =>
-    `<tr>${cols.map(c => `<td>${row[c] ?? '—'}</td>`).join('')}</tr>`
+    `<tr>${cols.map(c => `<td>${formatDate(row[c])}</td>`).join('')}</tr>`
   ).join('');
+
   return `
     <table class="report-table">
       <thead><tr>${head}</tr></thead>
@@ -450,11 +522,15 @@ document.querySelectorAll('.report-pill').forEach(pill => {
 
 document.getElementById('clear-terminal').addEventListener('click', () => {
   termBody.innerHTML = `
-    <div class="term-welcome">
+    <div class="term-welcome" id="term-welcome">
       <span class="term-prompt">postgres=#</span>
-      <span class="term-comment"> -- Terminal cleared.</span><br/>
+      <span class="term-comment"> -- Library Management Dashboard</span><br/>
+      <span class="term-prompt">postgres=#</span>
+      <span class="term-comment"> -- PostgreSQL Live Query Terminal v1.0</span><br/>
+      <span class="term-prompt">postgres=#</span>
+      <span class="term-comment"> -- Terminal cleared. Interact with the UI to see new queries.</span><br/>
       <br/>
-      <span class="term-cursor">█</span>
+      <span class="term-cursor" aria-hidden="true">█</span>
     </div>`;
 });
 
