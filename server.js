@@ -15,7 +15,7 @@ const PORT = process.env.PORT || 3000;
 
 // ─── Middleware ───────────────────────────────────────────────────────────────
 app.use(express.json());
-app.use(express.static(path.join(__dirname, 'public')));
+// app.use(express.static(path.join(__dirname, 'public'))); // Redundant: everything is in root
 
 // ─── PostgreSQL Connection Pool ───────────────────────────────────────────────
 const pool = new Pool({
@@ -172,8 +172,9 @@ RETURNING book_id, title, available_copies;`;
   const fullDisplayQuery =
     `BEGIN;\n\n${step1_display}\n\n${step2_display}\n\n${step3_display}\n\nCOMMIT;`;
 
-  const client = await pool.connect();
+  let client;
   try {
+    client = await pool.connect();
     await client.query('BEGIN');
 
     // ── Step 1: check availability ──────────────────────────────────────────
@@ -225,7 +226,7 @@ RETURNING book_id, title, available_copies;`;
       executed_query: `BEGIN;\n\n${step1_display}\n\n-- ROLLBACK triggered: ${err.message}\n\nROLLBACK;`,
     });
   } finally {
-    client.release();
+    if (client) client.release();
   }
 });
 
@@ -418,8 +419,9 @@ SET    available_copies = available_copies + 1
 WHERE  book_id = ${book_id}
 RETURNING book_id, title, available_copies;`;
 
-  const client = await pool.connect();
+  let client;
   try {
+    client = await pool.connect();
     await client.query('BEGIN');
 
     // 1. Verify existence of active loan for THIS member
@@ -482,7 +484,7 @@ RETURNING book_id, title, available_copies;`;
       executed_query: `BEGIN;\n\n${step1_display}\n\n-- ROLLBACK triggered: ${err.message}\n\nROLLBACK;`,
     });
   } finally {
-    client.release();
+    if (client) client.release();
   }
 });
 
@@ -494,10 +496,14 @@ app.use((req, res) => {
 
 // ─── Start ────────────────────────────────────────────────────────────────────
 app.listen(PORT, () => {
-  console.log(`\n  Library Dashboard →  http://localhost:${PORT}`);
-  console.log(`  API endpoints:`);
-  console.log(`      GET  /api/books`);
-  console.log(`      GET  /api/members`);
-  console.log(`      POST /api/borrow`);
-  console.log(`      GET  /api/reports?type=popularity|fines|overdue\n`);
+  console.log('\n' + '='.repeat(60));
+  console.log(`  ATHENAEUM CORE → http://localhost:${PORT}`);
+  console.log('='.repeat(60));
+  console.log(`  Endpoints:`);
+  console.log(`    [GET]  /api/books   - Fetch inventory`);
+  console.log(`    [GET]  /api/members - Fetch member roster`);
+  console.log(`    [POST] /api/borrow  - Process book checkout`);
+  console.log(`    [POST] /api/return  - Process book check-in`);
+  console.log(`    [GET]  /api/reports - Advanced analytics`);
+  console.log('='.repeat(60) + '\n');
 });
