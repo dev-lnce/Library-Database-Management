@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -8,13 +9,16 @@
   <!-- Google Fonts: Syne (display) + DM Sans (body) + JetBrains Mono (terminal) -->
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Syne:wght@700;800&family=DM+Sans:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
+  <link
+    href="https://fonts.googleapis.com/css2?family=Syne:wght@700;800&family=DM+Sans:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap"
+    rel="stylesheet" />
 
   <!-- Prism.js — One Dark theme -->
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism-one-dark.min.css" />
 
   <link rel="stylesheet" href="style.css" />
 </head>
+
 <body>
 
   <!-- ════════════════════════════════════════════════════════════════════════
@@ -31,18 +35,22 @@
       <header class="lib-header">
         <div class="header-brand">
           <div class="brand-icon" aria-hidden="true">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-              <path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/>
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+              stroke-linejoin="round">
+              <path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20" />
+              <path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z" />
             </svg>
           </div>
           <div>
-            <h1 class="brand-name">LibraryDB</h1>
+            <h1 class="brand-name">PUBLIC LIBRARY</h1>
             <p class="brand-sub">Management System</p>
+            <p class="brand-author">By: Lance Derick De Villa</p>
           </div>
         </div>
         <div class="header-stats" id="header-stats">
           <div class="stat-chip" id="stat-titles"><span class="stat-n">—</span><span class="stat-l">Titles</span></div>
-          <div class="stat-chip" id="stat-avail"><span class="stat-n">—</span><span class="stat-l">Available</span></div>
+          <div class="stat-chip" id="stat-avail"><span class="stat-n">—</span><span class="stat-l">Available</span>
+          </div>
           <div class="stat-chip" id="stat-out"><span class="stat-n">—</span><span class="stat-l">On Loan</span></div>
         </div>
       </header>
@@ -51,8 +59,10 @@
       <div class="lib-controls">
         <div class="member-bar">
           <span class="member-icon" aria-hidden="true">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" width="15" height="15">
-              <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/>
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+              stroke-linejoin="round" width="15" height="15">
+              <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2" />
+              <circle cx="12" cy="7" r="4" />
             </svg>
           </span>
           <select id="member-select" class="member-select">
@@ -63,12 +73,24 @@
         <!-- Tab navigation -->
         <nav class="tab-nav" role="tablist">
           <button class="tab-btn active" data-tab="books" role="tab" aria-selected="true">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="14" height="14"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/></svg>
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="14" height="14">
+              <path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20" />
+              <path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z" />
+            </svg>
             Books
           </button>
           <button class="tab-btn" data-tab="reports" role="tab" aria-selected="false">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="14" height="14"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M3 9h18M9 21V9"/></svg>
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="14" height="14">
+              <rect x="3" y="3" width="18" height="18" rx="2" />
+              <path d="M3 9h18M9 21V9" />
+            </svg>
             Reports
+          </button>
+          <button class="tab-btn" data-tab="capstone" role="tab" aria-selected="false">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="14" height="14">
+              <path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5" />
+            </svg>
+            Capstone
           </button>
         </nav>
       </div>
@@ -77,7 +99,10 @@
       <div class="tab-pane active" id="tab-books" role="tabpanel">
         <div class="search-bar">
           <span class="search-icon" aria-hidden="true">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="15" height="15"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg>
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="15" height="15">
+              <circle cx="11" cy="11" r="8" />
+              <path d="m21 21-4.35-4.35" />
+            </svg>
           </span>
           <input type="text" id="search-input" class="search-input" placeholder="Search title, author, genre…" />
         </div>
@@ -94,14 +119,346 @@
       <!-- ── TAB: REPORTS ── -->
       <div class="tab-pane" id="tab-reports" role="tabpanel" hidden>
         <div class="report-toolbar">
-          <button class="report-pill" data-type="popularity">🏆 Popularity</button>
-          <button class="report-pill" data-type="fines">💰 Fine Ledger</button>
-          <button class="report-pill" data-type="overdue">⏰ Overdue</button>
+          <button class="report-pill" data-type="popularity">Popularity</button>
+          <button class="report-pill" data-type="fines">Fine Ledger</button>
+          <button class="report-pill" data-type="overdue">Overdue</button>
         </div>
         <div id="report-status" class="report-status">
           Select a report above to run an advanced CTE query.
         </div>
         <div id="report-output" class="report-output"></div>
+      </div>
+
+      <!-- ── TAB: CAPSTONE ── -->
+      <div class="tab-pane capstone-pane" id="tab-capstone" role="tabpanel" hidden>
+
+        <div class="capstone-grid">
+          <!-- ── LEFT COLUMN ── -->
+          <div class="capstone-col">
+
+            <!-- Section 1: PROJECT OVERVIEW -->
+            <div class="capstone-section">
+              <div class="capstone-section-title">1. PROJECT OVERVIEW (Problem Description)</div>
+              <div class="capstone-prose">
+                <p>A public library currently manages its inventory, member records, and borrowing activity using manual
+                  paper-based logs, leading to errors, inefficiencies, and difficulty generating reports. This project
+                  designs and implements a fully relational Library Management Database System using PostgreSQL to
+                  digitize and automate these operations.</p>
+                <p>The system stores and manages: Books (with genre, ISBN, copy counts), Authors (linked via a
+                  many-to-many junction table), Library Members (with membership status and contact details), Borrowing
+                  Records (with borrow/due/return dates and status), and Fines (calculated at PHP 1.50 per overdue day).
+                </p>
+                <p>The database enforces referential integrity via foreign keys, prevents invalid data via CHECK
+                  constraints, and supports advanced reporting through CTEs and window functions. A Node.js/Express API
+                  layer exposes the database to a browser-based Live Query Dashboard that displays the exact SQL
+                  executed for every user interaction in real time.</p>
+              </div>
+            </div>
+
+            <!-- Section 2: DATABASE DESIGN -->
+            <div class="capstone-section">
+              <div class="capstone-section-title">2. DATABASE DESIGN (Entity-Relationship Diagram - ERD)</div>
+              <!-- Refined SVG with Crow's Foot Notation -->
+              <svg viewBox="0 0 750 600" xmlns="http://www.w3.org/2000/svg"
+                style="width: 100%; height: auto; display: block; background: var(--bg-surface); font-family: var(--font-body);">
+                <defs>
+                  <style>
+                    .box {
+                      fill: var(--bg-surface);
+                      stroke: var(--border-color);
+                      stroke-width: 1.5px;
+                      rx: 6px;
+                    }
+
+                    .header-bg {
+                      fill: var(--term-bg);
+                    }
+
+                    .header-line {
+                      stroke: var(--border-color);
+                      stroke-width: 1.5px;
+                    }
+
+                    .text-title {
+                      font-weight: bold;
+                      font-size: 13px;
+                      fill: var(--text-main);
+                    }
+
+                    .text-attr {
+                      font-family: var(--font-mono);
+                      font-size: 11px;
+                      fill: var(--text-muted);
+                    }
+
+                    .text-pk {
+                      font-weight: bold;
+                      fill: var(--text-main);
+                      text-decoration: underline;
+                    }
+
+                    .text-fk {
+                      font-style: italic;
+                    }
+
+                    .rel-line {
+                      stroke: var(--blue-primary);
+                      stroke-width: 1.2px;
+                      fill: none;
+                    }
+
+                    .crow-mark {
+                      stroke: var(--blue-primary);
+                      stroke-width: 1.2px;
+                      fill: none;
+                    }
+                  </style>
+                  <!-- Crow's Foot Marker Definitions -->
+                  <marker id="one-and-only-one" markerWidth="10" markerHeight="10" refX="5" refY="5" orient="auto">
+                    <line x1="5" y1="2" x2="5" y2="8" stroke="var(--blue-primary)" stroke-width="1.2" />
+                  </marker>
+                  <marker id="zero-to-many" markerWidth="10" markerHeight="10" refX="10" refY="5" orient="auto">
+                    <circle cx="2" cy="5" r="2" stroke="var(--blue-primary)" fill="white" stroke-width="1" />
+                    <path d="M10 2 L5 5 L10 8" stroke="var(--blue-primary)" stroke-width="1.2" fill="none" />
+                  </marker>
+                  <marker id="one-to-many" markerWidth="10" markerHeight="10" refX="10" refY="5" orient="auto">
+                    <line x1="2" y1="2" x2="2" y2="8" stroke="var(--blue-primary)" stroke-width="1.2" />
+                    <path d="M10 2 L5 5 L10 8" stroke="var(--blue-primary)" stroke-width="1.2" fill="none" />
+                  </marker>
+                </defs>
+
+                <!-- Entities -->
+                <!-- AUTHORS -->
+                <rect x="20" y="20" width="180" height="120" class="box" />
+                <rect x="21" y="21" width="178" height="25" class="header-bg" />
+                <line x1="20" y1="46" x2="200" y2="46" class="header-line" />
+                <text x="30" y="38" class="text-title">AUTHORS</text>
+                <text x="30" y="66" class="text-attr text-pk">author_id (PK)</text>
+                <text x="30" y="82" class="text-attr">first_name</text>
+                <text x="30" y="98" class="text-attr">last_name</text>
+                <text x="30" y="114" class="text-attr">nationality</text>
+
+                <!-- BOOK_AUTHORS (Junction) -->
+                <rect x="250" y="40" width="150" height="80" class="box" />
+                <rect x="251" y="41" width="148" height="25" class="header-bg" />
+                <line x1="250" y1="66" x2="400" y2="66" class="header-line" />
+                <text x="260" y="58" class="text-title">BOOK_AUTHORS</text>
+                <text x="260" y="86" class="text-attr text-fk">book_id (FK)</text>
+                <text x="260" y="102" class="text-attr text-fk">author_id (FK)</text>
+
+                <!-- BOOKS -->
+                <rect x="450" y="20" width="180" height="160" class="box" />
+                <rect x="451" y="21" width="178" height="25" class="header-bg" />
+                <line x1="450" y1="46" x2="630" y2="46" class="header-line" />
+                <text x="460" y="38" class="text-title">BOOKS</text>
+                <text x="460" y="66" class="text-attr text-pk">book_id (PK)</text>
+                <text x="460" y="82" class="text-attr">title</text>
+                <text x="460" y="98" class="text-attr">isbn (U)</text>
+                <text x="460" y="114" class="text-attr">genre</text>
+                <text x="460" y="130" class="text-attr">total_copies</text>
+                <text x="460" y="146" class="text-attr">available_copies</text>
+
+                <!-- MEMBERS -->
+                <rect x="20" y="250" width="180" height="150" class="box" />
+                <rect x="21" y="251" width="178" height="25" class="header-bg" />
+                <line x1="20" y1="276" x2="200" y2="276" class="header-line" />
+                <text x="30" y="268" class="text-title">MEMBERS</text>
+                <text x="30" y="296" class="text-attr text-pk">member_id (PK)</text>
+                <text x="30" y="312" class="text-attr">full_name</text>
+                <text x="30" y="328" class="text-attr">email (U)</text>
+                <text x="30" y="344" class="text-attr">status</text>
+                <text x="30" y="360" class="text-attr">joined_date</text>
+
+                <!-- BORROWING_RECORDS -->
+                <rect x="450" y="250" width="180" height="150" class="box" />
+                <rect x="451" y="251" width="178" height="25" class="header-bg" />
+                <line x1="450" y1="276" x2="630" y2="276" class="header-line" />
+                <text x="460" y="268" class="text-title">BORROWING_RECORDS</text>
+                <text x="460" y="296" class="text-attr text-pk">record_id (PK)</text>
+                <text x="460" y="312" class="text-attr text-fk">book_id (FK)</text>
+                <text x="460" y="328" class="text-attr text-fk">member_id (FK)</text>
+                <text x="460" y="344" class="text-attr">borrow_date</text>
+                <text x="460" y="360" class="text-attr">return_date</text>
+                <text x="460" y="376" class="text-attr">status</text>
+
+                <!-- FINES -->
+                <rect x="450" y="450" width="180" height="120" class="box" />
+                <rect x="451" y="451" width="178" height="25" class="header-bg" />
+                <line x1="450" y1="476" x2="630" y2="476" class="header-line" />
+                <text x="460" y="468" class="text-title">FINES</text>
+                <text x="460" y="496" class="text-attr text-pk">fine_id (PK)</text>
+                <text x="460" y="512" class="text-attr text-fk">record_id (FK)</text>
+                <text x="460" y="528" class="text-attr">amount</text>
+                <text x="460" y="544" class="text-attr">is_paid</text>
+
+                <!-- RELATIONSHIPS -->
+                <!-- Authors to Junction -->
+                <line x1="200" y1="80" x2="250" y2="80" class="rel-line" marker-start="url(#one-and-only-one)"
+                  marker-end="url(#one-to-many)" />
+                <!-- Books to Junction -->
+                <line x1="450" y1="80" x2="400" y2="80" class="rel-line" marker-start="url(#one-and-only-one)"
+                  marker-end="url(#one-to-many)" />
+                <!-- Members to records -->
+                <path d="M200 325 L450 325" class="rel-line" marker-start="url(#one-and-only-one)"
+                  marker-end="url(#zero-to-many)" />
+                <!-- Books to records -->
+                <path d="M540 180 L540 250" class="rel-line" marker-start="url(#one-and-only-one)"
+                  marker-end="url(#zero-to-many)" />
+                <!-- Records to Fines -->
+                <path d="M540 400 L540 450" class="rel-line" marker-start="url(#one-and-only-one)"
+                  marker-end="url(#zero-to-many)" />
+
+              </svg>
+            </div>
+
+            <!-- Section 3: TABLE STRUCTURE -->
+            <div class="capstone-section">
+              <div class="capstone-section-title">3. TABLE STRUCTURE (DDL - Data Definition Language)</div>
+              <pre class="language-sql"><code class="language-sql">-- Core Table: Authors
+CREATE TABLE authors (
+    author_id SERIAL PRIMARY KEY,
+    first_name VARCHAR(100) NOT NULL,
+    last_name VARCHAR(100) NOT NULL,
+    nationality VARCHAR(50),
+    birth_year INT
+);
+
+-- Core Table: Books
+CREATE TABLE books (
+    book_id SERIAL PRIMARY KEY,
+    title VARCHAR(255) NOT NULL,
+    isbn VARCHAR(13) UNIQUE NOT NULL,
+    published_year INT CHECK (published_year BETWEEN 1000 AND 2025),
+    genre VARCHAR(50),
+    total_copies INT NOT NULL CHECK (total_copies >= 0),
+    available_copies INT NOT NULL CHECK (available_copies >= 0 AND available_copies <= total_copies)
+);
+
+-- Junction: Book-Author Relationship
+CREATE TABLE book_authors (
+    book_id INT REFERENCES books(book_id) ON DELETE CASCADE,
+    author_id INT REFERENCES authors(author_id) ON DELETE CASCADE,
+    PRIMARY KEY (book_id, author_id)
+);
+
+-- Core Table: Members
+CREATE TABLE members (
+    member_id SERIAL PRIMARY KEY,
+    first_name VARCHAR(100) NOT NULL,
+    last_name VARCHAR(100) NOT NULL,
+    email VARCHAR(255) UNIQUE NOT NULL,
+    membership_date DATE DEFAULT CURRENT_DATE,
+    membership_status VARCHAR(20) DEFAULT 'active' CHECK (membership_status IN ('active', 'suspended', 'expired'))
+);
+
+-- Transactional: Borrowing Records
+CREATE TABLE borrowing_records (
+    record_id SERIAL PRIMARY KEY,
+    book_id INT REFERENCES books(book_id) ON DELETE RESTRICT,
+    member_id INT REFERENCES members(member_id) ON DELETE RESTRICT,
+    borrow_date DATE DEFAULT CURRENT_DATE NOT NULL,
+    due_date DATE NOT NULL CHECK (due_date >= borrow_date),
+    return_date DATE CHECK (return_date IS NULL OR return_date >= borrow_date),
+    status VARCHAR(20) DEFAULT 'borrowed' CHECK (status IN ('borrowed', 'returned', 'overdue'))
+);</code></pre>
+            </div>
+
+          </div><!-- /.capstone-col (Left) -->
+
+          <!-- ── RIGHT COLUMN ── -->
+          <div class="capstone-col">
+
+            <!-- Section 4: SAMPLE DATA -->
+            <div class="capstone-section">
+              <div class="capstone-section-title">4. SAMPLE DATA (INSERT Statements)</div>
+              <pre
+                class="language-sql"><code class="language-sql">-- Population: Authors
+INSERT INTO authors (first_name, last_name, nationality, birth_year) VALUES
+('J.K.', 'Rowling', 'British', 1965),
+('George R.R.', 'Martin', 'American', 1948),
+('J.R.R.', 'Tolkien', 'British', 1892),
+('Agatha', 'Christie', 'British', 1890),
+('Stephen', 'King', 'American', 1947);
+
+-- Population: Books
+INSERT INTO books (title, isbn, published_year, genre, total_copies, available_copies) VALUES
+('Harry Potter and the Sorcerer''s Stone', '9780747532699', 1997, 'Fantasy', 5, 3),
+('A Game of Thrones', '9780553103540', 1996, 'Fantasy', 4, 2),
+('The Hobbit', '9780261102217', 1937, 'Fantasy', 3, 3),
+('The Shining', '9780385121675', 1977, 'Horror', 3, 1),
+('Foundation', '9780553293357', 1951, 'Sci-Fi', 2, 2);
+
+-- Junctioning: Authors and Books
+INSERT INTO book_authors (book_id, author_id) VALUES
+(1, 1), (2, 2), (3, 3), (4, 5);
+
+-- Population: Library Members
+INSERT INTO members (first_name, last_name, email, membership_status) VALUES
+('Alice', 'Smith', 'alice@example.com', 'active'),
+('Bob', 'Johnson', 'bob@example.com', 'active'),
+('Charlie', 'Brown', 'charlie@example.com', 'suspended'),
+('Diana', 'Prince', 'diana@example.com', 'active');</code></pre>
+            </div>
+
+            <!-- Section 5: BASIC QUERIES -->
+            <div class="capstone-section">
+              <div class="capstone-section-title">5. BASIC QUERIES (DML - Data Manipulation Language)</div>
+              <div class="capstone-query-desc">Example 1: Fetch all books currently sitting in the inventory with
+                at least one available copy.</div>
+              <pre
+                class="language-sql"><code class="language-sql">SELECT title, genre, available_copies 
+FROM books 
+WHERE available_copies > 0 
+ORDER BY title;</code></pre>
+
+              <div class="capstone-query-desc">Example 2: Generate a standard member roster for administrative
+                review, including their active status and formatted joining date.</div>
+              <pre class="language-sql"><code class="language-sql">SELECT
+    member_id,
+    first_name || ' ' || last_name AS full_name,
+    email,
+    membership_status,
+    TO_CHAR(membership_date, 'Mon DD, YYYY') AS joined_since
+FROM members
+ORDER BY last_name, first_name;</code></pre>
+
+              <div class="capstone-query-desc">Example 3: Identify members who currently have a book on loan
+                to track active circulation.</div>
+              <pre class="language-sql"><code class="language-sql">SELECT m.first_name, m.last_name, b.title, br.due_date
+FROM members m
+JOIN borrowing_records br ON m.member_id = br.member_id
+JOIN books b ON br.book_id = b.book_id
+WHERE br.status = 'borrowed';</code></pre>
+            </div>
+
+            <!-- Section 6: ADVANCED QUERIES -->
+            <div class="capstone-section">
+              <div class="capstone-section-title">6. ADVANCED QUERIES (JOIN & GROUP BY)</div>
+
+              <div class="capstone-query-desc">Query 1: Identify the "Top 3 Most Popular Books" based on their
+                total borrowing frequency. This join aggregates transactional data to determine demand.</div>
+              <pre class="language-sql"><code class="language-sql">SELECT b.title, COUNT(br.record_id) as total_borrows
+FROM books b
+JOIN borrowing_records br ON b.book_id = br.book_id
+GROUP BY b.book_id, b.title
+ORDER BY total_borrows DESC
+LIMIT 3;</code></pre>
+
+              <div class="capstone-query-desc">Query 2: Locate all Authors who have books currently out on loan.
+                This complex join traverses the junction table to link specific authors to real-time borrowing status.
+              </div>
+              <pre class="language-sql"><code class="language-sql">SELECT DISTINCT a.first_name, a.last_name, b.title
+FROM authors a
+JOIN book_authors ba ON a.author_id = ba.author_id
+JOIN books b ON ba.book_id = b.book_id
+JOIN borrowing_records br ON b.book_id = br.book_id
+WHERE br.status = 'borrowed'
+ORDER BY a.last_name;</code></pre>
+            </div>
+
+          </div><!-- /.capstone-col (Right) -->
+        </div><!-- /.capstone-grid -->
+
       </div>
 
     </section>
@@ -124,7 +481,12 @@
           SQL Live Terminal
         </span>
         <button class="term-clear-btn" id="clear-terminal" title="Clear terminal">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="13" height="13"><polyline points="3 6 5 6 21 6"/><path d="M19 6l-1 14H6L5 6"/><path d="M10 11v6M14 11v6"/><path d="M9 6V4h6v2"/></svg>
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="13" height="13">
+            <polyline points="3 6 5 6 21 6" />
+            <path d="M19 6l-1 14H6L5 6" />
+            <path d="M10 11v6M14 11v6" />
+            <path d="M9 6V4h6v2" />
+          </svg>
         </button>
       </div>
 
@@ -132,12 +494,12 @@
       <div class="term-body" id="term-body">
         <div class="term-welcome" id="term-welcome">
           <span class="term-prompt">postgres=#</span>
-          <span class="term-comment"> -- Library Management Dashboard</span><br/>
+          <span class="term-comment"> -- Library Management Dashboard</span><br />
           <span class="term-prompt">postgres=#</span>
-          <span class="term-comment"> -- PostgreSQL Live Query Terminal v1.0</span><br/>
+          <span class="term-comment"> -- PostgreSQL Live Query Terminal v1.0</span><br />
           <span class="term-prompt">postgres=#</span>
-          <span class="term-comment"> -- Interact with the UI to see queries execute here.</span><br/>
-          <br/>
+          <span class="term-comment"> -- Interact with the UI to see queries execute here.</span><br />
+          <br />
           <span class="term-cursor" aria-hidden="true">█</span>
         </div>
       </div>
@@ -153,4 +515,5 @@
   <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-sql.min.js"></script>
   <script src="app.js"></script>
 </body>
+
 </html>

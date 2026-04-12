@@ -81,7 +81,7 @@ function addTerminalEntry({ method, endpoint, label, query, status, rowCount, er
   entry.className = `term-entry ${status}`;
 
   const methodClass = `method-${method.toLowerCase()}`;
-  const statusText  = status === 'ok' ? '✓ OK' : '✗ ERR';
+  const statusText  = status === 'ok' ? 'OK' : 'ERR';
   const statusClass = status === 'ok' ? 'status-ok' : 'status-err';
 
   const footerContent = status === 'ok'
@@ -161,7 +161,7 @@ async function fetchBooks() {
     spinner.remove();
     addTerminalEntry({
       method: 'GET', endpoint: '/api/books', label: 'Load Library Inventory',
-      query:  '-- ❌ Network error — is the server running?',
+      query:  '-- Network error — is the server running?',
       status: 'err', error: err.message,
     });
     booksList.innerHTML = `<div class="empty-state">Cannot reach server. Is Node running?</div>`;
@@ -261,11 +261,11 @@ async function borrowBook(bookId, btn) {
     });
 
     if (json.success) {
-      showToast(`✓ ${json.message}`, 'success');
+      showToast(`${json.message}`, 'success');
       // Refresh book list to reflect updated available_copies
       await fetchBooks();
     } else {
-      showToast(`✗ ${json.error}`, 'error');
+      showToast(`${json.error}`, 'error');
       btn.disabled    = false;
       btn.textContent = 'Borrow';
       btn.classList.remove('loading');
@@ -274,7 +274,7 @@ async function borrowBook(bookId, btn) {
     spinner.remove();
     addTerminalEntry({
       method: 'POST', endpoint: '/api/borrow', label: 'Checkout Transaction',
-      query:  '-- ❌ Network error',
+      query:  '-- Network error',
       status: 'err', error: err.message,
     });
     showToast('Network error — check the server.', 'error');
@@ -316,10 +316,10 @@ async function returnBook(bookId, btn) {
     });
 
     if (json.success) {
-      showToast(`✓ ${json.message}`, 'success');
+      showToast(`${json.message}`, 'success');
       await fetchBooks();
     } else {
-      showToast(`✗ ${json.error}`, 'error');
+      showToast(`${json.error}`, 'error');
       btn.disabled    = false;
       btn.textContent = 'Return';
       btn.classList.remove('loading');
@@ -328,7 +328,7 @@ async function returnBook(bookId, btn) {
     spinner.remove();
     addTerminalEntry({
       method: 'POST', endpoint: '/api/return', label: 'Checkin Transaction',
-      query:  '-- ❌ Network error',
+      query:  '-- Network error',
       status: 'err', error: err.message,
     });
     showToast('Network error — check connection.', 'error');
@@ -484,6 +484,13 @@ document.querySelectorAll('.tab-btn').forEach(btn => {
     const pane = document.getElementById(`tab-${btn.dataset.tab}`);
     pane.classList.add('active');
     pane.hidden = false;
+
+    if (btn.dataset.tab === 'capstone') {
+      document.querySelector('.app-grid').classList.add('capstone-active');
+      if (window.Prism) Prism.highlightAllUnder(pane);
+    } else {
+      document.querySelector('.app-grid').classList.remove('capstone-active');
+    }
   });
 });
 

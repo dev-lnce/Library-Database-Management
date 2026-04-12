@@ -30,10 +30,10 @@ const pool = new Pool({
 
 pool.connect((err, client, release) => {
   if (err) {
-    console.error('❌  Database connection failed:', err.message);
+    console.error('  Database connection failed:', err.message);
     console.error('    Check your .env values and that PostgreSQL is running.');
   } else {
-    console.log('✅  Connected to PostgreSQL —', process.env.DB_NAME || 'library_db');
+    console.log('  Connected to PostgreSQL —', process.env.DB_NAME || 'library_db');
     release();
   }
 });
@@ -222,7 +222,7 @@ RETURNING book_id, title, available_copies;`;
     return res.status(400).json({
       success:        false,
       error:          err.message,
-      executed_query: `BEGIN;\n\n${step1_display}\n\n-- ❌ ROLLBACK triggered: ${err.message}\n\nROLLBACK;`,
+      executed_query: `BEGIN;\n\n${step1_display}\n\n-- ROLLBACK triggered: ${err.message}\n\nROLLBACK;`,
     });
   } finally {
     client.release();
@@ -479,7 +479,7 @@ RETURNING book_id, title, available_copies;`;
     return res.status(400).json({
       success:        false,
       error:          err.message,
-      executed_query: `BEGIN;\n\n${step1_display}\n\n-- ❌ ROLLBACK triggered: ${err.message}\n\nROLLBACK;`,
+      executed_query: `BEGIN;\n\n${step1_display}\n\n-- ROLLBACK triggered: ${err.message}\n\nROLLBACK;`,
     });
   } finally {
     client.release();
@@ -494,8 +494,8 @@ app.use((req, res) => {
 
 // ─── Start ────────────────────────────────────────────────────────────────────
 app.listen(PORT, () => {
-  console.log(`\n🚀  Library Dashboard →  http://localhost:${PORT}`);
-  console.log(`📡  API endpoints:`);
+  console.log(`\n  Library Dashboard →  http://localhost:${PORT}`);
+  console.log(`  API endpoints:`);
   console.log(`      GET  /api/books`);
   console.log(`      GET  /api/members`);
   console.log(`      POST /api/borrow`);
